@@ -25,17 +25,5 @@ img {
 <img id="strip" />
 <p>© Pertti Jarla</p>
 
-<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
-<script>
-$.get("http://www.hs.fi/fingerpori/", function (data) {
-	var stripUrl = $("#VW_content .strip img", data).attr("src");
-	var stripDate = $("#VW_content div p", data).text();
-	$("h1").text("Fingerpori " + stripDate);
-	$("#strip").attr("src", stripUrl);
-});
-$(function() {
-	$("#strip").click(function() {
-		chrome.tabs.create({url: "http://www.hs.fi/fingerpori"});
-	});
-});
-</script>
+<script type="text/javascript" src="jquery-1.4.2.min.js" />
+<script type="text/javascript" src="fingerpop.js" />
