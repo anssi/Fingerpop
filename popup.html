@@ -1,0 +1,41 @@
+<style>
+body {
+  overflow: hidden;
+  color: black;
+  min-width:357px;
+}
+
+h1 {
+	font: 15px Arial,Helvetica,sans-serif;
+	color: black;
+	margin: 0px 0 5px 0;
+	padding: 0;
+}
+p {
+	font: 13px Arial,Helvetica,sans-serif;
+	margin: 0 0 0 0;
+	padding: 0;
+}
+img {
+	cursor: hand;
+}
+</style>
+
+<h1></h1>
+<img id="strip" />
+<p>© Pertti Jarla</p>
+
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script>
+$.get("http://www.hs.fi/fingerpori/", function (data) {
+	var stripUrl = $("#VW_content .strip img", data).attr("src");
+	var stripDate = $("#VW_content div p", data).text();
+	$("h1").text("Fingerpori " + stripDate);
+	$("#strip").attr("src", stripUrl);
+});
+$(function() {
+	$("#strip").click(function() {
+		chrome.tabs.create({url: "http://www.hs.fi/fingerpori"});
+	});
+});
+</script>
