@@ -1,6 +1,9 @@
 var stripUrl = "http://www.hs.fi/fingerpori/";
 
 function updateView(url) {
+	$("#strip img").fadeOut(150, function () {
+		$(this).remove();
+	});
 	$.get(url, function(data) {
 		parseData(data);
 	});
@@ -15,9 +18,6 @@ function parseData(data) {
 }
 
 function updateStripImage(stripImageSrc) {
-	$("#strip img").fadeOut(150, function () {
-		$(this).remove();
-	});
 	var stripImage = new Image();
 	$(stripImage).load(function () {
 		$(this).hide();
