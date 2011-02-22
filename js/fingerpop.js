@@ -1,12 +1,15 @@
-var stripUrl = "http://www.hs.fi/fingerpori/";
+var stripUrl = "http://www.hs.fi/fingerpori";
+var animationSpeed = 100;
 
 function updateView(url) {
-	$("#strip img").fadeOut(150, function () {
+	$("#strip").addClass("loading");
+	$("#strip img").fadeOut(animationSpeed, function () {
 		$(this).remove();
 	});
-	$.get(url, function(data) {
+	var jqxhr = $.get(url, function(data) {
 		parseData(data);
-	});
+	})
+	.error(function () { $("#header").text("Error loading Fingerpori!"); });
 }
 
 function parseData(data) {
@@ -20,14 +23,19 @@ function parseData(data) {
 function updateStripImage(stripImageSrc) {
 	var stripImage = new Image();
 	$(stripImage).load(function () {
+		$("#strip").removeClass("loading");
 		$(this).hide();
 		$(this).offset($("#strip").offset());
-		$("#strip").height(stripImage.height);
-		$("#strip").width(stripImage.width);
-		$("#strip").append(this);
-		$(this).fadeIn(150);
+		$("#strip").animate({
+			width: stripImage.width + "px",
+			height: stripImage.height + "px"
+		}, 100, function () {
+			$("#strip").append(stripImage);
+			$(stripImage).fadeIn(animationSpeed);
+		});
 	})
-	.attr("src", stripImageSrc);
+	.attr("src", stripImageSrc)
+	;
 }
 
 function updateNavigation(data) {
@@ -62,5 +70,5 @@ $(function() {
 	$("#strip").click(function() {
 		chrome.tabs.create({url: "http://www.hs.fi/fingerpori"});
 	});
-	updateView(stripUrl);
+	setTimeout("updateView(stripUrl);", 1);
 });
