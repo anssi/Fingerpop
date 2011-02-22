@@ -1,8 +1,9 @@
 <style>
 body {
-  overflow: hidden;
-  color: black;
-  min-width:357px;
+	overflow: hidden;
+	color: black;
+	/*min-width: 300px;*/
+	margin: 5px 18px 20px 18px;
 }
 
 #header {
@@ -11,18 +12,47 @@ body {
 	margin: 0px 0 5px 0;
 	padding: 0;
 }
+#nav_prev {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 20px;	
+	height: 100%;
+	background: url('img/grey_prev.png') center center no-repeat;
+	cursor: hand;
+}
+#nav_prev:hover {
+	background-image: url('img/prev.png');
+}
+#nav_next {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 20px;	
+	height: 100%;
+	background: url('img/grey_next.png') center center no-repeat;
+	cursor: hand;
+}
+#nav_next:hover {
+	background-image: url('img/next.png');
+}
 p {
+	position: absolute;
+	bottom: 2px;
 	font: 13px Arial,Helvetica,sans-serif;
 	margin: 0 0 0 0;
 	padding: 0;
 }
-img {
+#strip img {
 	cursor: hand;
+	position: absolute;
 }
 </style>
 
 <div id="header"></div>
-<img id="strip" />
+<div id="nav_prev"></div>
+<div id="strip"></div>
+<div id="nav_next"></div>
 <p>© Pertti Jarla</p>
 
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
