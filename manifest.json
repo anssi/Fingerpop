@@ -16,5 +16,4 @@
 		"tabs",
 		"http://www.hs.fi/*"
 	]
-	//"content_security_policy": "script-src 'self' http://sample.com; object-src 'self'"
 }
