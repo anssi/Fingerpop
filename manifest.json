@@ -1,11 +1,12 @@
 {
+	"manifest_version": 2,
 	"name": "Fingerpop",
 	"description": "Pertti Jarla's comic strip \"Fingerpori\" in a popup view.",
-	"version": "0.5",
+	"version": "0.6",
 	"browser_action": {
 		"default_icon": "img/icon19.png",
 		"default_title": "Fingerpop",
-		"popup": "popup.html"
+		"default_popup": "popup.html"
 	},
 	"icons": {
 		"48": "img/icon48.png",
@@ -15,4 +16,5 @@
 		"tabs",
 		"http://www.hs.fi/*"
 	]
+	//"content_security_policy": "script-src 'self' http://sample.com; object-src 'self'"
 }
