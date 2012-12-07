@@ -4,7 +4,8 @@ var LEFT_ARROW = 37;
 var RIGHT_ARROW = 39;
 
 var previousButton = ""
-var nextButton = ""
+var nextButton = "";
+var currentUrl = "http://www.hs.fi/fingerpori";
 var previousUrl = "";
 var nextUrl = "";
 
@@ -17,6 +18,7 @@ function updateView(url) {
 	if (url.indexOf("http://www.hs.fi") != 0) {
 		url = "http://www.hs.fi" + url;
 	}
+	currentUrl = url;
 	var jqxhr = $.get(url, function(data) {
 		parseData(data);
 	})
@@ -108,7 +110,7 @@ $(function() {
 	});
 	
 	$("#strip").click(function() {
-		chrome.tabs.create({url: "http://www.hs.fi/fingerpori"});
+		chrome.tabs.create({url: currentUrl});
 	});
 	setTimeout(function () {updateView(stripUrl);}, 1);
 });
