@@ -10,6 +10,15 @@ body {
 	margin: 0px 0 5px 0;
 	padding: 0;
 }
+
+span.strip_name {
+  font-size: 20px;
+}
+
+span.strip_date {
+  margin-left: 10px;
+}
+
 #nav_prev {
 	position: absolute;
 	top: 0;
@@ -42,10 +51,11 @@ p {
 	padding: 0;
 }
 #strip {
-	min-width: 400px;
+  width: 500px;
 	min-height: 150px;
 }
 #strip img {
+  max-width: 500px;
 	cursor: hand;
 	position: absolute;
 }

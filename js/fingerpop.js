@@ -8,6 +8,7 @@ var nextButton = "";
 var currentUrl = "http://www.hs.fi/fingerpori";
 var previousUrl = "";
 var nextUrl = "";
+var latestUrl = "";
 
 function updateView(url) {
 	$("#strip").addClass("loading");
@@ -26,15 +27,14 @@ function updateView(url) {
 }
 
 function parseData(data) {
-	var stripImageSrc = ""
-	$("#full-comic div img", data).each(function () {
-		var imageUrl = $(this).attr("src");
-		if (imageUrl.indexOf("sarjis") > 0) {
-			stripImageSrc = imageUrl;
-		}
-	});
-	var stripDate = $("#full-comic .comic-date", data).text();
-	$("#header").html("Fingerpori " + stripDate);
+	var stripImageSrc = $($("figure.cartoon img", data)[0]).data('original');
+	var stripDate = $("header.cartoon-header span.date", data).text();
+
+  if (stripImageSrc.indexOf("//") == 0) {
+    stripImageSrc = "http:" + stripImageSrc;
+  }
+
+	$("#header span.strip_date").html(stripDate);
 	updateStripImage(stripImageSrc);
 	updateNavigation(data);
 }
@@ -45,9 +45,17 @@ function updateStripImage(stripImageSrc) {
 		$("#strip").removeClass("loading");
 		$(this).hide();
 		$(this).offset($("#strip").offset());
+
+    var imgWidth = stripImage.width;
+    var imgHeight = stripImage.height;
+    if (imgWidth > 500) {
+      var ratio = imgWidth / 500;
+      imgWidth = Math.round(imgWidth / ratio);
+      imgHeight = Math.round(imgHeight / ratio);
+    }
 		$("#strip").animate({
-			width: stripImage.width + "px",
-			height: stripImage.height + "px"
+			width: imgWidth + "px",
+			height: imgHeight + "px"
 		}, 100, function () {
 			$("#strip").append(stripImage);
 			$(stripImage).fadeIn(animationSpeed);
@@ -58,17 +66,17 @@ function updateStripImage(stripImageSrc) {
 }
 
 function updateNavigation(data) {
-	previousButton = $(".comic-nav a.prev-cm", data);
-	nextButton = $(".comic-nav a.next-cm", data)
+	previousButton = $(".cartoon a.prev", data);
+	nextButton = $(".cartoon a.next", data)
 	previousUrl = "";
 	nextUrl = "";
-	if (!previousButton.hasClass("prev-cm-disabled")) {
+	if (!previousButton.hasClass("disabled")) {
 		previousUrl = previousButton.attr("href");
 	} else {
 		previousUrl = "";
 	}
 	
-	if (!nextButton.hasClass("next-cm-disabled")) {
+	if (!nextButton.hasClass("disabled")) {
 		nextUrl = nextButton.attr("href");	
 	} else {
 		nextUrl = "";
@@ -95,6 +103,14 @@ function updateNavigation(data) {
 	}
 }
 
+function discoverLatestStrip() {
+  var latestStripUrl;
+	$.get(stripUrl, function (data) {
+		latestStripUrl = "http://www.hs.fi" + $($('.cartoon .list-item .cartoon-content a', data)[0]).attr('href');
+    updateView(latestStripUrl);
+	});
+}
+
 $(function() {
 
 	$(document).bind('mousedown.disableTextSelect', function() {
@@ -112,5 +128,6 @@ $(function() {
 	$("#strip").click(function() {
 		chrome.tabs.create({url: currentUrl});
 	});
-	setTimeout(function () {updateView(stripUrl);}, 1);
+
+  setTimeout(function () {discoverLatestStrip();}, 1);
 });
